@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
 
 export default function App() {
 
@@ -27,11 +27,13 @@ export default function App() {
         <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
       <View style={styles.listContainer}>
-        {courseGoals.map((goal) =>
-          <View elevation={5} style={styles.listItem}>
-            <Text style={styles.listItemText} key={goal}> {goal}</Text>
-          </View>
-        )}
+        <ScrollView style={styles.scrollContainer}>
+          {courseGoals.map((goal) =>
+            <View elevation={5} style={styles.listItem}>
+              <Text style={styles.listItemText} key={goal}> {goal}</Text>
+            </View>
+          )}
+        </ScrollView>
       </View>
     </View>
   );
@@ -62,17 +64,19 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 6,
     alignItems: 'center',
-    paddingTop: 15,
+    width: '100%',
   },
   listItem: {
     backgroundColor: 'white',
     margin: 8,
     borderRadius: 8,
     padding: 5,
-    width: '80%',
     alignItems: 'center',
   },
   listItemText: {
     fontStyle: 'italic',
-  }
+  },
+  scrollContainer: {
+    width: '90%'
+  },
 });
