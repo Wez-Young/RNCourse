@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
 
@@ -12,7 +12,10 @@ export default function App() {
   function addGoalHandler() {
     setCourseGoals((currentGoals) => [
       ...currentGoals,
-      inputtedGoalText,
+      {
+        key: Math.random().toString(),
+        text: inputtedGoalText
+      },
     ]);
   }
 
@@ -27,13 +30,15 @@ export default function App() {
         <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
       <View style={styles.listContainer}>
-        <ScrollView style={styles.scrollContainer}>
-          {courseGoals.map((goal) =>
+        <FlatList data={courseGoals}
+        renderItem={itemData => {
+          return (
             <View elevation={5} style={styles.listItem}>
-              <Text style={styles.listItemText} key={goal}> {goal}</Text>
+              <Text style={styles.listItemText}>{itemData.item.text}</Text>
             </View>
-          )}
-        </ScrollView>
+          );
+        }}
+        alwaysBounceVertical={false}/>
       </View>
     </View>
   );
@@ -72,9 +77,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 5,
     alignItems: 'center',
+    shadowOffset: { width: 2, height: 3},
+  shadowColor: 'black',
+  shadowOpacity: 0.3,
+  elevation: 3,
   },
   listItemText: {
-    fontStyle: 'italic',
+
   },
   scrollContainer: {
     width: '90%'
